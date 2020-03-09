@@ -33,7 +33,7 @@ class Node(object):
 
 list1 = Node(2)
 list1.append(4)
-list1.append(3)
+list1.append(7)
 
 p1 = list1
 print("l1:")
@@ -52,19 +52,31 @@ while p2:
 	p2 = p2._next
 
 
-def addTwoList(n1, n2, carry):
-	carry += (0 if (None == n1) else n1.data) + (0 if (None == n2) else n2.data)
-	ret = Node(carry % 10)
+def addTwoList(n1, n2, carry=0):
+	#print(n1.data,n2.data,carry) #check the input in entry when debug
+	cr = carry + (0 if (None == n1) else n1.data) + (0 if (None == n2) else n2.data)
 	
-	#ret = addTwoList(n1._next, n2._next, carry / 10)
-	t1 = n1._next
-	t2 = n2._next
-	carry = carry / 10
-	#ret = addTwoList(t1, t2, carry)
-	print t1.data, t2.data
+	if 0 != cr :
+		ret = Node(cr % 10)
+	else:
+		return None
 	
-	#addTwoList(t1, t1, carry)
+	if None != n1._next:
+		t1 = n1._next
+	else:
+		t1 = None
 
+	if None != n2._next:
+		t2 = n2._next
+	else:
+		t2 = None
+
+	if None != t1 or None != t2:
+		ret._next = addTwoList(t1, t2, cr / 10)
+	else:
+		if 0 != cr / 10:
+			ret._next = Node(cr / 10)
+		
 	return ret
 
 result = addTwoList(list1, list2, 0)
