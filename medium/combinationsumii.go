@@ -54,25 +54,32 @@ func main(){
 }
 */
 
-func findpath(candidates []int, path []int, res [][]int, target int, begin int, size int ) {
+func findpath(candidates []int, path []int, res [][]int, target int, begin int, size int) {
 	if 0 == target {
 		fmt.Println(path)
 		res = append(res, path)
 	} else {
-		for i, num := range candidates {
-			var left_num int = target - num
-			if left_num < 0 {break}
-			if i > begin && num == candidates[i - 1] {continue}
+		for i := begin; i < size; i++ {
+			var left_num int = target - candidates[i]
+			if left_num < 0 {
+				break
+			}
+			if i > begin && candidates[i] == candidates[i-1] {
+				continue
+			}
 			path = append(path, candidates[i])
-			findpath(candidates, path, res, left_num, i + 1, size)
+			findpath(candidates, path, res, left_num, i+1, size)
+			path = append(path[:len(path)-1])
 		}
 
 	}
 }
 
-func combinationSum2(candidates []int, target int, res [][]int){
+func combinationSum2(candidates []int, target int, res [][]int) {
 	var size int = len(candidates)
-	if 0 == size {return}
+	if 0 == size {
+		return
+	}
 
 	var path []int
 
@@ -86,5 +93,5 @@ func main() {
 
 	combinationSum2(candidates, 8, result)
 
-	fmt.Println(result)
+	//fmt.Println(result)
 }
